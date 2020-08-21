@@ -1,0 +1,183 @@
+﻿@model Car.Models.CardGeneralModel
+@{
+    Layout = Layout;
+    ViewData["Title"] = "MainPage";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
+
+    <meta name="csrf-param" content="authenticity_token" />
+    <meta name="csrf-token" content="jzU4zMd+c1xENocsx1/kB5HBX26U04T2Gip62HcVudjdQ4UVaa32AiVP9Q5+oTzO3l+//yeuMhYExRRHQvU9+A==" />
+
+    <style>
+
+        .card {
+            width: 210px;
+            height: 250px;
+        }
+
+            .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            }
+
+        img {
+            border-radius: 5px 5px 0 0;
+            padding: 5px 5px;
+        }
+
+        .container {
+            padding: 2px 8px;
+        }
+
+            .container .btn {
+            }
+    </style>
+</head>
+<body>
+
+    <form asp-controller="Home" asp-action="MainPage" method="post">
+        <br />
+        <div class="row">
+            <div class=" col-md-2 ">
+
+                <select class="form-control" id="BrandId" asp-for="BrandId" asp-items="@(new SelectList(ViewBag.Brands, "Id", "BrandName"))">
+                    <option>Bütün markalar</option>
+                </select>
+
+
+            </div>
+            <div class="col-md-2">
+                <label for="email" class="form-control">Qiymet</label>
+            </div>
+            <div class="form-group col-md-1 ">
+                <select id="Currencyİd" asp-for="CurrencyId" class="form-control" placeholder="AZN" asp-items="@(new SelectList(ViewBag.Currency,"Id","Name"))">
+                </select>
+            </div>
+            <div class="form-group col-md-1">
+                <input id="minPrice" asp-for="minPrice" placeholder=".min" class="form-control">
+            </div>
+            <div class="form-group col-md-1">
+                <input id="maksPrice" asp-for="maxPrice" placeholder=".maks" class="form-control">
+            </div>
+            <div class="form-group col-md-1 ">
+                <input class="form-check-input" type="checkbox" asp-for="Credit">
+                <label class="form-check-label" asp-for="Credit">
+                    Kredit
+                </label>
+            </div>
+            <div class="form-group col-md-2">
+                <select class="form-control" id="City" asp-for="CityId" asp-items="@(new SelectList(ViewBag.City, "Id", "Name"))">
+                    <option>Bütün şəhərlər</option>
+                </select>
+                <span asp-for="CityId" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-1">  <button type="submit" class="btn btn-danger"> &nbsp;&nbsp;&nbsp;&nbsp;Axtar&nbsp; &nbsp;&nbsp;&nbsp;</button></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <select class="form-control" id="ModelId" asp-for="ModelId" asp-items="@(new SelectList(string.Empty, "Id", "ModelName"))">
+                    <option>Bütün modellər</option>
+                </select>
+
+            </div>
+            <div class="col-md-2">
+                <label for="email" class="form-control">Buraxılış ili</label>
+            </div>
+            <div class="form-group col-md-1">
+
+            </div>
+            <div class="form-group col-md-1">
+                <input asp-for="minYear" name="minYear" placeholder=".min" class="form-control">
+            </div>
+            <div class="form-group col-md-1">
+                <input asp-for="maxYear" name="maxYear" placeholder=".maks" class="form-control">
+            </div>
+            <div class="form-group col-md-1">
+
+                <input class="form-check-input" type="checkbox" asp-for="Barter">
+                <label class="form-check-label" asp-for="Barter">
+                    Barter
+                </label>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="email" class="form-control">Elan sayı:@Model.AllAdss.Count()</label>
+            </div>
+            <div class="form-group col-md-2">
+
+                <a class="btn btn-warning" href="https://localhost:44352/Home/GeneralSearch" >Ətraflı axtarış</a>
+
+            </div>
+        </div>
+    </form>
+    
+
+    <h3><b>Son Elanlar</b></h3>
+    <hr />
+    <br /> &nbsp;
+    <div class="row">
+        @foreach (var item in Model.AllAdss.OrderByDescending(x => x.Id).Take(4).ToList())
+        {
+            <div class="container col-md-3">
+                <div class="card" onClick="reply_click(@item.Id)">
+                    <img class="card-img-top text-center" src="~/img/@item.ImgAds.First().Image" width="200" height="150" />
+                    <button onClick="reply_click(@item.Id)" class="btn btn-danger">@item.Price @item.Currency.Name</button>
+                    <div class="container" width="200" height="150">
+                        <h5><b>@item.Brand.BrandName @item.Model.ModelName</b></h5>
+                        <p>@item.FounderYear il · @item.EngineVolume.Name L · @item.Walk km </p>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </div> <br />
+
+    <h3><b>Elanlar</b></h3>
+    <hr />
+    <br /> &nbsp;
+    <div class="row">
+        @foreach (var item in Model.AllAdss)
+        {
+            <div class="container col-md-3">
+                <div class="card" onClick="reply_click(@item.Id)">
+                    <img class="card-img-top text-center" src="~/img/@item.ImgAds.First().Image" width="200" height="150" />
+                    <button onClick="reply_click(@item.Id)" class="btn btn-danger">@item.Price @item.Currency.Name</button>
+                    <div class="container" width="200" height="150">
+                        <h5><b>@item.Brand.BrandName @item.Model.ModelName</b></h5>
+                        <p>@item.FounderYear il · @item.EngineVolume.Name L · @item.Walk km </p>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </div> <br />
+    <script>
+
+        function reply_click(clicked_id) {
+            window.location.href ="/CarAdd/CardInfo/"+clicked_id;
+        }
+    $(function () {
+    $("#BrandId").change(function () {
+              var url = '@Url.Content("~/")' + "CarAdd/GetModelId";
+               var ddlsource = "#BrandId";
+    $.getJSON(url, { id: $(ddlsource).val() }, function (data) {
+              var row = "";
+    $("#ModelId").empty();
+              row += "<option>" + "Bütün modellər" + "</option>"
+    $.each(data, function (i, v) {
+              row += "<option value=" + v.value + ">" + v.text + "</option>"
+                });
+    $("#ModelId").html(row);
+               })
+               })
+              })
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,277 @@
+﻿@model Car.Models.AllAds
+    <style>
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {
+  opacity: 0.7;
+}
+
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.9);
+  /* Black w/ opacity */
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+.modal-content,
+#caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+
+  from {
+    transform: scale(0)
+  }
+  to {
+    transform: scale(1)
+  }
+
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+  .modal-content {
+    width: 100%;
+  }
+
+    </style>
+<body>
+    <div class="container" style="background-color:black">
+        <div class="col-md-4">
+
+            <img class="myImages" src="~/img/@Model.ImgAds.First().Image" style="width:100%;max-width:300px" id="myImg" />
+            <div id="myModal" class="modal">
+                <span class="close">&times;</span>
+                <img class="modal-content" id="img01">
+                <div id="caption"></div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-7">
+
+            @foreach (var item in Model.ImgAds)
+            {
+                <img class="myImages" src="~/img/@item.Image" style="width:70%;max-width:150px" id="myImg">
+               
+
+            } 
+        <div id="myModal" class="modal">
+            <span class="close">&times;</span>
+            <img class="modal-content" id="img01">
+            <div id="caption"></div>
+        </div>
+
+        </div>
+
+    </div>
+    <br />
+    <div class="container border" style="background-color:azure">
+        <div class="col-md-3">
+            <br />
+            <span class="btn-danger" style="font-size:30px">@Model.Price @Model.Currency.Name</span>
+        </div>
+        <div class="col-md-9">
+            <h2> <b> @Model.Brand.BrandName @Model.Model.ModelName, @Model.EngineVolume.Name L, @Model.FounderYear, @Model.Walk km</b></h2>
+        </div>
+    </div>
+    <br />
+    <div class="container border col-md-3" style="background-color:azure">
+        <h4><b>Əlaqə:</b> @Model.Contact</h4>
+        <h4><b>Ad:</b> @Model.Name</h4>
+        <h4><b>Şəhər:</b> @Model.City.Name</h4>
+    </div>
+    &nbsp;
+    <div class="container border col-md-6" style="background-color:white">
+        <hr />
+        <h4><b>Marka:</b> @Model.Brand.BrandName </h4>
+        <hr />
+        <h4><b>Model:</b> @Model.Model.ModelName </h4>
+        <hr />
+        <h4><b>Buraxılış ili:</b> @Model.FounderYear </h4>
+        <hr />
+        <h4><b>Ban növü:</b> @Model.BodyType.Name </h4>
+        <hr />
+        <h4><b>Rəng:</b> @Model.Color.Name </h4>
+        <hr />
+        <h4><b>Mühərrikin həcmi:</b> @Model.EngineVolume.Name L </h4>
+        <hr />
+        <h4><b>Mühərrikin gücü:</b> @Model.Hp a.g</h4>
+        <hr />
+        <h4><b>Yanacaq növü:</b> @Model.FuelType.Name</h4>
+        <hr />
+        <h4><b>Yürüş:</b> @Model.Walk Km</h4>
+        <hr />
+        <h4><b>Sürətlər qutusu:</b> @Model.Gearbox.Name </h4>
+        <hr />
+        <h4><b>Ötürücü:</b> @Model.Transmission.Name </h4>
+        <hr />
+        <h4><b>Qiymət:</b> @Model.Price @Model.Currency.Name </h4>
+    </div>
+    <div class="container border col-md-3" style="background-color:white">
+        <ul>
+
+            @if (Model.AlloyWheels)
+            {
+                <li>
+
+                    <h4> Yüngül lehimli disklər</h4>
+                </li>
+            }
+
+            @if (Model.Usa)
+            {
+                <li>
+                    <h4>ABS</h4>
+                </li>
+            }
+            @if (Model.Luke)
+            {
+                <li>
+                    <h4>Lyuk</h4>
+                </li>
+            }
+            @if (Model.RainSensor)
+            {
+                <li>
+                    <h4>Yağış sensoru</h4>
+                </li>
+            }
+            @if (Model.CentralClosure)
+            {
+                <li>
+                    <h4>Mərkəzi qapanma</h4>
+                </li>
+            }
+            @if (Model.ParkingRadar)
+            {
+                <li>
+                    <h4>Park radarı</h4>
+                </li>
+            }
+            @if (Model.Conditioner)
+            {
+                <li>
+                    <h4>Kondisioner</h4>
+                </li>
+            }
+            @if (Model.SeatHeating)
+            {
+                <li>
+                    <h4>Oturacaqların isidilməsi</h4>
+                </li>
+            }
+            @if (Model.LeatherSalon)
+            {
+                <li>
+                    <h4>Dəri salon</h4>
+                </li>
+            }
+            @if (Model.Xenon)
+            {
+                <li>
+                    <h4> Ksenon lampalar</h4>
+                </li>
+            }
+            @if (Model.RearCamera)
+            {
+                <li>
+                    <h4> Arxa görüntü kamerası</h4>
+                </li>
+            }
+            @if (Model.SideCurtains)
+            {
+                <li>
+                    <h4> Yan pərdələr</h4>
+                </li>
+            }
+            @if (Model.LeatherSalon)
+            {
+                <li>
+                    <h4>Oturacaqların ventilyasiyası</h4>
+                </li>
+            }
+        </ul>
+        <hr />
+        <h4>@Model.Note</h4>
+    </div>
+    <script>
+        var modal = document.getElementById('myModal');
+        // to all images -- note I'm using a class!
+        var images = document.getElementsByClassName('myImages');
+        // the image in the modal
+        var modalImg = document.getElementById("img01");
+        // and the caption in the modal
+        var captionText = document.getElementById("caption");
+
+        // Go through all of the images with our custom class
+        for (var i = 0; i < images.length; i++) {
+            var img = images[i];
+            // and attach our click listener for this image.
+            img.onclick = function (evt) {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
+            }
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    </script>
+</body>
